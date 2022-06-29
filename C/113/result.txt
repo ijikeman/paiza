@@ -1,0 +1,7 @@
+php test.php < data1.txt
+goal
+2
+
+php test.php < data2.txt
+still
+4
