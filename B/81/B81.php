@@ -29,4 +29,10 @@ list($max_tate, $max_yoko) = explode(' ', $first_line->list[0]);
 
 $data_master = new Stdins($max_tate);
 print_r($data_master->list);
+
+// 最上段/最下段 +1
+// 一番左、一番右 +1
+// 前が or 後ろが.なら +1
+// #は1
+
 ?>
