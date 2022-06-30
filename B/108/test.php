@@ -1,46 +1,81 @@
 <?php
-    $fp = @fopen('./test.txt', 'r');
-    list($MAX_GONDRA, $MAX_GROUP) = explode(' ', trim(fgets($fp, 4096)));
-    $GONDRA_LIST = array();
-    $MEMBER_LIST = array();
-    $BOADING_LIST = array(); // 各ゴンドラ毎に乗った人数を加算
+// define
+$GONDRA_LIST = array(); // ゴンドラリスト
+$MEMBER_LIST = array(); // 順番待ちリスト
+$BOARDING_LIST = array(); // 各ゴンドラ毎に乗った人数を格納
 
-    $index=0;
-    while (($line = fgets($fp, 4096)) !== false ) {
-        // ゴンドラ乗れる人数リスト
-        if ($index < $MAX_GONDRA) {
-            array_push($GONDRA_LIST, $line);
-        } else {
-            // グループの人数リスト
-            array_push($MEMBER_LIST, $line);
-        }
-        $index++;
+// データを取得
+list ($MAX_GONDRA, $MAX_GROUP) = explode(' ', trim(fgets(STDIN)));
+// 乗車数リストを初期化する
+for ($i=0; $i < $MAX_GONDRA; $i++) {
+    $BOARDING_LIST[$i] = 0;
+}
+
+$index = 0;
+while (($line = fgets(STDIN)) !== false ) {
+    if ($index < $MAX_GONDRA) {
+        // ゴンドラリストを作成
+        array_push($GONDRA_LIST, $line);
+    } else {
+        // 順番待ちリストを作成
+        array_push($MEMBER_LIST, $line);
+    }
+    $index++;
+}
+/* debug
+print_r($GONDRA_LIST);
+print_r($MEMBER_LIST);
+*/
+
+$gondra_index = 0; // ゴンドラ番号
+$num = 0; // グループ人数
+
+// グループ人数を取得、全グループ搭乗すれば終了
+while ($num = array_shift($MEMBER_LIST)) {
+    // 余りの人数を初期化する
+    $amari = 0;
+    // カウントアップ値を初期化
+    $count_up = 0;
+
+    // もしゴンドラ番号が最大なら初期化する
+    if (($MAX_GONDRA-1) <= $gondra_index) {
+        $gondra_index = 0;
     }
 
-    /* debug
-    print_r($GONDRA_LIST);
-    print_r($MEMBER_LIST);
-    */
+    // ゴンドラを回して乗車人数を取得
+    while ($max_num = array_slice($GONDRA_LIST, $gondra_index, 1)) {
+        // もし余りの人数が0じゃなければ乗車人数として割り当てる
+        if ($amari != 0) {
+            $num = $amari;
+        }
 
-    // ゴンドラ番号
-    $gondra_index = 0;
-    $max_board_num = 0;
-
-    // 次のゴンドラ乗車人数を取得
-    while($max_board_num = array_slice($GONDRA_LIST, $gondra_index, 1)) {
-        // 乗車グループがなくなれば終了
-        if (count($MEMBER_LIST) == 0) {
+        // もし乗車人数が全員乗車できない場合
+        if ($max_num < $num) {
+            // カウントをMAX人数分にする
+            $count_up = $max_num;
+            // 余剰人数を計算する
+            $amari = $num - $max_num;
+        } else {
+            // ゴンドラ毎のカウントをメンバー人数にする
+            $count_up = $num;
+            $amari = 0;
             break;
-        } else {
-            // グループ１つずつ処理
-            $member = array_shift($MEMBER_LIST);
         }
+        // ゴンドラ毎のカウントを足す
+        $BOARDING_LIST[$gondra_index] += (int)$count_up;
+        // ゴンドラ番号を次へ
+        $gondra_index++;
 
-        // ゴンドラに乗れる人数がグループ人数より少ない場合は、全員乗れない
-        if ($member > $max_board_num) {
-            $amari = $member - $max_board_num;
-            $BOADING_LIST[$i]+=$max_board_num; // 乗車記録に最大人数を記録
+        // 全員乗車できたので次のグループへ
+        if ($amari == 0) {
+            break;
         }
-        $gondra_index++; // 次のゴンドラに移る
     }
+    print_r($BOARDING_LIST);
+}
+
+// ゴンドラ毎の乗車人数を出力する
+while ($num = array_shift($BOARDING_LIST)) {
+    echo $num . "\n";
+}
 ?>
