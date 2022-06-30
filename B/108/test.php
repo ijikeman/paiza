@@ -31,7 +31,7 @@ $gondra_index = 0; // ゴンドラ番号
 $num = 0; // グループ人数
 
 // グループ人数を取得、全グループ搭乗すれば終了
-while ($num = array_shift($MEMBER_LIST)) {
+while ((int)$num = array_shift($MEMBER_LIST)) {
     // 余りの人数を初期化する
     $amari = 0;
     // カウントアップ値を初期化
@@ -43,7 +43,7 @@ while ($num = array_shift($MEMBER_LIST)) {
     }
 
     // ゴンドラを回して乗車人数を取得
-    while ($max_num = array_slice($GONDRA_LIST, $gondra_index, 1)) {
+    while ((int)$max_num = array_slice($GONDRA_LIST, $gondra_index, 1)[0]) {
         // もし余りの人数が0じゃなければ乗車人数として割り当てる
         if ($amari != 0) {
             $num = $amari;
@@ -59,7 +59,6 @@ while ($num = array_shift($MEMBER_LIST)) {
             // ゴンドラ毎のカウントをメンバー人数にする
             $count_up = $num;
             $amari = 0;
-            break;
         }
         // ゴンドラ毎のカウントを足す
         $BOARDING_LIST[$gondra_index] += (int)$count_up;
@@ -70,8 +69,8 @@ while ($num = array_shift($MEMBER_LIST)) {
         if ($amari == 0) {
             break;
         }
+        print_r($BOARDING_LIST);
     }
-    print_r($BOARDING_LIST);
 }
 
 // ゴンドラ毎の乗車人数を出力する
