@@ -47,8 +47,7 @@ class Stdins {
  *   - string or FALSE
  */
 class GetLineFromFile {
-    static function get($filename) {
-        $fp = fopen($filename, 'r');
+    static function get($fp) {
         if ($result = fgets($fp)) {
             $result = trim($result);
             return $result;
@@ -67,10 +66,10 @@ class GetLineFromFile {
  *   - array()
  */
 class GetLinesFromFile {
-    static function get($filename, $max_num) {
+    static function get($fp, $max_num) {
         $list = array();
         for ($i=0; $i < $max_num; $i++) {
-            $result = GetLineFromfile::get($filename);
+            $result = GetLineFromfile::get($fp);
             if ($result == FALSE) {
                 break;
             } else {
@@ -116,15 +115,21 @@ class CountScore {
  *  main
  */
 $paiza = new PaizaData();
-list($tate_max, $yoko_max) = explode(' ', trim(Stdin::get(1))); // parse First Line
-$paiza->setData(Stdins::get($tate_max)); // set Second Data
-print_r($paiza->getData(1));
 
-$split_data = array(); // コンテンツデータを１文字ずつ分離して格納する
-foreach($paiza->getData(1) as $data) {
-    $split_data[] = str_split($data);
-    print_r($split_data);
-}
+/* STDIN用(on Paiza) */
+//list($tate_max, $yoko_max) = explode(' ', trim(Stdin::get(1))); // parse First Line
+//$paiza->setData(Stdins::get($tate_max)); // set Second Data
+/* local Debug用 */
+$fp = fopen('./data1.txt', 'r');
+list($tate_max, $yoko_max) = explode(' ', trim(GetLineFromFile::get($fp))); // parse First Line
+$paiza->setData(GetLinesFromFile::get($fp, $tate_max)); // set Second Data
+
+print_r($paiza->getData(1));
+// $split_data = array(); // コンテンツデータを１文字ずつ分離して格納する
+// foreach($paiza->getData(1) as $data) {
+//     $split_data[] = str_split($data);
+//     print_r($split_data);
+// }
 
 /**
  * データ分析開始
