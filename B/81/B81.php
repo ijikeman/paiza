@@ -118,11 +118,11 @@ class CountScore {
 $paiza = new PaizaData();
 list($tate_max, $yoko_max) = explode(' ', trim(Stdin::get(1))); // parse First Line
 $paiza->setData(Stdins::get($tate_max)); // set Second Data
-print_r($paiza->data);
+print_r($paiza->getData(1));
 
 $split_data = array(); // コンテンツデータを１文字ずつ分離して格納する
-for ($i=2; $i <= $tate_max; $i++) {
-    $split_data[] = str_split($paiza->getData($i));
+foreach($paiza->getData(1) as $data) {
+    $split_data[] = str_split($data);
     print_r($split_data);
 }
 
