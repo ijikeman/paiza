@@ -101,10 +101,29 @@ class PaizaData {
 
 /**
  * 判定した数値を返す
+ * [条件]
+ * -- 全ての行で判定する -- 
+ * 前がなしで次が. 0
+ * 前がなしで次が# +1
+ * 前が.で次が# +1
+ * 前が.で次が. 0
+ * 前が#で次が# 0
+ * 前が#で次が. +1
+ * -- 最初の行と最後の行は判定する
+ * 最初/最終行.なら 0
+ * 最初/最終行#なら +1
+ * -- 最初の行以外は判定する
+ * 前の行がなしで.0
+ * 前の行がなしで# +1
+ * 前の行が.で. 0
+ * 前の行が#で. +1
+ * 前の行が.で# +1
+ * 前の行が#で # 0
+ * --判定条件終了 --
  */
 class Judge {
     public $SCORE = 0;
-    function judge($uppper_data=NULL, $before_data=NULL, $current_data=NULL) {
+    function judge($uppper_data=NULL, $before_data=NULL, $current_data=NULL, $current_line_number, $max_line_number) {
         switch($current_data) {
             case '.':
                 switch ($before_data) {
@@ -139,12 +158,12 @@ $paiza = new PaizaData();
  * Data Input
  */
 /* STDIN用(on Paiza) */
-//list($tate_max, $yoko_max) = explode(' ', trim(Stdin::get(1))); // parse First Line
-//$paiza->setData(Stdins::get($tate_max)); // set Second Data
+//list($max_tate, $max_yoko) = explode(' ', trim(Stdin::get(1))); // parse First Line
+//$paiza->setData(Stdins::get($max_tate)); // set Second Data
 /* local Debug用 */
 $fp = fopen('./data1.txt', 'r');
-list($tate_max, $yoko_max) = explode(' ', trim(GetLineFromFile::get($fp))); // parse First Line
-$paiza->setData(GetLinesFromFile::get($fp, $tate_max)); // set Second Data
+list($max_tate, $max_yoko) = explode(' ', trim(GetLineFromFile::get($fp))); // parse First Line
+$paiza->setData(GetLinesFromFile::get($fp, $max_tate)); // set Second Data
 // print_r($paiza->getData(1));
 /**
  * End Data Input
@@ -155,33 +174,13 @@ $split_data = array();
 $judge = new Judge();
 $before_data = $uppper_data = $current_data = NULL;
 for($i = 0; $i < count($paiza->getData(1)); $i++) {
+    $current_line_number = 0;
     foreach (str_split($paiza->getData(1)[$i]) as $current_data) { // コンテンツデータを１文字ずつ分割し判定
-        $judge->judge($uppper_data, $before_data, $current_data);
+        $judge->judge($uppper_data, $before_data, $current_data, $current_line_number, $max_tate);
     }
 }
 
-/**
- * データ分析開始
- * 条件
- * 全ての行で判定する 
- * 前がなしで次が. 0
- * 前がなしで次が# +1
- * 前が.で次が# +1
- * 前が.で次が. 0
- * 前が#で次が# 0
- * 前が#で次が. +1
- * -- 最初の行と最後の行は判定する
- * 最初/最終行.なら 0
- * 最初/最終行#なら +1
- * -- 最初の行以外は判定する
- * 前の行がなしで.0
- * 前の行がなしで# +1
- * 前の行が.で. 0
- * 前の行が#で. +1
- * 前の行が.で# +1
- * 前の行が#で # 0
- * --判定条件終了 --
- */
+
 // .##.
 // .##.
 // .##.
