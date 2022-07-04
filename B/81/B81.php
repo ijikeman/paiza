@@ -102,12 +102,31 @@ class PaizaData {
 /**
  * 判定した数値を返す
  */
-class CountScore {
+class Judge {
     public $SCORE = 0;
-    function judge($current_data, $before_data=null, $before_line_data=null, $after_line_data=null) {
-        $this->current_data = $current_data;
-        $this->before_data = $before_data;
-        $this->before_line_data = $before_line_data;
+    function judge($uppper_data=NULL, $before_data=NULL, $current_data=NULL) {
+        switch($current_data) {
+            case '.':
+                switch ($before_data) {
+                    case NULL:
+                        break;
+                    case '.':
+                        break;
+                    case '#':
+                        break;
+                }
+                switch ($uppper_data) {
+                    case NULL:
+                        break;
+                    case '.':
+                        break;
+                    case '#':
+                        break;
+                }
+                break;
+            case '#':
+                break;
+        }
     }
 }
 
@@ -116,6 +135,9 @@ class CountScore {
  */
 $paiza = new PaizaData();
 
+/**
+ * Data Input
+ */
 /* STDIN用(on Paiza) */
 //list($tate_max, $yoko_max) = explode(' ', trim(Stdin::get(1))); // parse First Line
 //$paiza->setData(Stdins::get($tate_max)); // set Second Data
@@ -123,13 +145,20 @@ $paiza = new PaizaData();
 $fp = fopen('./data1.txt', 'r');
 list($tate_max, $yoko_max) = explode(' ', trim(GetLineFromFile::get($fp))); // parse First Line
 $paiza->setData(GetLinesFromFile::get($fp, $tate_max)); // set Second Data
+// print_r($paiza->getData(1));
+/**
+ * End Data Input
+ */
 
-print_r($paiza->getData(1));
-// $split_data = array(); // コンテンツデータを１文字ずつ分離して格納する
-// foreach($paiza->getData(1) as $data) {
-//     $split_data[] = str_split($data);
-//     print_r($split_data);
-// }
+
+$split_data = array();
+$judge = new Judge();
+$before_data = $uppper_data = $current_data = NULL;
+for($i = 0; $i < count($paiza->getData(1)); $i++) {
+    foreach (str_split($paiza->getData(1)[$i]) as $current_data) { // コンテンツデータを１文字ずつ分割し判定
+        $judge->judge($uppper_data, $before_data, $current_data);
+    }
+}
 
 /**
  * データ分析開始
