@@ -1,5 +1,9 @@
 import sys
 
+class Validation:
+    def CheckInt(param):
+        return isinstance(param, int)
+
 # intかどうか
 def ValidationInt(argument):
     return isinstance(argument, int)
