@@ -103,22 +103,23 @@ class PaizaData {
  * 判定した数値を返す
  * [条件]
  * -- 全ての行で判定する -- 
- * 前がなしで次が. 0
- * 前がなしで次が# +1
- * 前が.で次が# +1
- * 前が.で次が. 0
- * 前が#で次が# 0
- * 前が#で次が. +1
+ * 前がなしで次が. 0 ok
+ * 前が.で次が. 0 ok
+ * 前が#で次が. +1 ok
+ * 前がなしで次が# +1 ok
+ * 前が.で次が# +1 ok
+ * 前が#で次が# 0 ok
  * -- 最初の行と最後の行は判定する
- * 最初/最終行.なら 0
- * 最初/最終行#なら +1
+ * 最初/最終行.なら 0 ok
+ * 最初/最終行#なら +1 ok
  * -- 最初の行以外は判定する
- * 前の行がなしで.0
- * 前の行がなしで# +1
- * 前の行が.で. 0
- * 前の行が#で. +1
- * 前の行が.で# +1
- * 前の行が#で # 0
+ * 前の行がなしで.0 ok
+ * 前の行が.で. 0 ok
+ * 前の行が#で. +1 ok
+
+ * 前の行がなしで# +1 ok
+ * 前の行が.で# +1 ok
+ * 前の行が#で # 0 ok
  * --判定条件終了 --
  */
 class Judge {
@@ -128,22 +129,54 @@ class Judge {
             case '.':
                 switch ($before_data) {
                     case NULL:
+                        $this->SCORE += 0;
                         break;
                     case '.':
+                        $this->SCORE += 0;
                         break;
                     case '#':
+                        $this->SCORE++;
                         break;
                 }
                 switch ($uppper_data) {
                     case NULL:
+                        $this->SCORE += 0;
                         break;
                     case '.':
+                        $this->SCORE += 0;
                         break;
                     case '#':
+                        $this->SCORE++;
                         break;
                 }
                 break;
             case '#':
+                switch ($before_data) {
+                    case NULL:
+                        $this->SCORE++;
+                        break;
+                    case '.':
+                        $this->SCORE++;
+                        break;
+                    case '#':
+                        $this->SCORE += 0;
+                        break;
+                }
+                switch ($uppper_data) {
+                    case NULL:
+                        $this->SCORE++;
+                        $this->SCORE++; // first line
+                        break;
+                    case '.':
+                        $this->SCORE++;
+                        break;
+                    case '#':
+                        $this->SCORE += 0;
+                        break;
+                }
+                if ($current_line_number == $max_line_number) { // last line
+                    $this->SCORE++;
+                }
                 break;
         }
     }
