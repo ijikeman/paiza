@@ -13,8 +13,8 @@ class paizaData:
             self.data_array.append(input())
 
     def get_data(self, num):
-        return self.data_array[num]
+        return self.data_array[int(num)]
 
 paiza_data = paizaData()
 paiza_data.set_data(2)
-print(int(paiza_data.get_data(1)) % int(paiza_data.get_data(0)))
+print(int(paiza_data.get_data(2)) % int(paiza_data.get_data(1)))
