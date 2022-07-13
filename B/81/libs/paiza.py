@@ -1,10 +1,13 @@
-class paizaData:
-    def __init__(self):
-        self.__data_array = []
+from data import *
 
-    def set_data(self, num):
+class PaizaValueData(ValueData):
+    def set(self):
+        self.data = input()
+
+class PaizaArrayData(ArrayData):
+    def set(self):
+        self.data.append(input())
+
+    def sets(self, num):
         for i in range(num):
-            self.__data_array.append(input())
-
-    def get_data(self, num):
-        return self.__data_array[int(num)]
+            self.data.append(input())
