@@ -1,3 +1,66 @@
+from abc import ABCMeta, abstractclassmethod
+
+class Data(metaclass=ABCMeta):
+    @abstractclassmethod
+    def __init__(self):
+        pass
+
+    @abstractclassmethod
+    def get(self):
+        pass
+
+    @abstractclassmethod
+    def set(self):
+        pass
+
+class ValueData(Data):
+    def __init__(self):
+        self.__data = ''
+
+    def get(self):
+        return self.__data
+
+    def set(self, value):
+        self.__data = value
+
+class ArrayData(Data):
+    def __init__(self):
+        self.__data = []
+
+    def get(self, num):
+        return self.__data[int(num)]
+    
+    def set(self, value):
+        self.__data.append(value)
+
+    def sets(self, *value):
+        self.__data.extend(value)
+
+    def pop(self):
+        return self.__data.pop(0)
+
+class HashData(Data):
+    def __init__(self):
+        self.__data = {}
+    
+    def get(self, key):
+        return self.__data[key]
+    
+    def set(self, key, value):
+        self.__data[key: value]
+
+class PaizaValueData(ValueData):
+    def set(self):
+        super().set(input())
+
+class PaizaArrayData(ArrayData):
+    def set(self):
+        super().set(input())
+
+    def sets(self, num):
+        for i in range(num):
+            super().set(input())
+
 import logging
 import sys
 logger = logging.getLogger(__name__)
@@ -6,17 +69,33 @@ logger.addHandler(sh)
 # ロガーのログレベルをWARNINGに設定する
 logger.setLevel(logging.WARNING)
 
-sys.path.append("./libs/") ## paiza
-import data ## paiza
-# import paiza ## debug
-import vscode as paiza ## debug
+#sys.path.append("./libs/")
+#import data
+#import paiza
+#import vscode as paiza ## debug
 
 """
 判定した数値を返す
 [条件]
+-- 全ての行で判定する -- 
+current=#
+- before=. 1
+- before="" !
+- before=# 0
+
+current=. 
+- before=. 0
+- before="" 0
+- before=# 1
+
+vertical=0 or max
+- current=# 1
+
+中間業と最終行
+current=. and upper=# 1
+current=# and upper=. 1
 """
-# class B81(ValueData): ## paiza
-class B81(data.ValueData):
+class B81(ValueData):
     def __init__(self):
         super().set(0)
 
@@ -73,19 +152,17 @@ class B81(data.ValueData):
 Main
 """
 #最初の行データをインスタンス化
-# first_line = PaizaValueData() ## paiza
-first_line = paiza.ValueData() ## paiza
+first_line = PaizaValueData()
 # 最初の行を取得し、スペースで分割
 first_line.set()
 vertical_max, horizontal_max = first_line.get().split(" ")
 
 # 花壇データをインスタンス化
-# kadan_data = PaizaArrayData() ## paiza
-kadan_data = paiza.ArrayData() ## paiza
+kadan_data = PaizaArrayData()
 # 花壇データを取り込み
 kadan_data.sets(int(vertical_max))
-kadan_data.set() ### debug ## 行が１行足りない
-kadan_data.pop() ### debug ## 先頭行を削除
+# kadan_data.set() ### debug ## 行が１行足りない
+# kadan_data.pop() ### debug ## 先頭行を削除
 
 # b81クラスのインスタンス化
 b81 = B81()

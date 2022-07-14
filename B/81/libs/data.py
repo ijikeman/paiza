@@ -36,6 +36,9 @@ class ArrayData(Data):
     def sets(self, *value):
         self.__data.extend(value)
 
+    def pop(self):
+        return self.__data.pop(0)
+
 class HashData(Data):
     def __init__(self):
         self.__data = {}

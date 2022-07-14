@@ -1,10 +1,12 @@
 from data import *
 
-class PaizaValueData(ValueData):
+# class PaizaValueData(ValueData): ## paiza
+class ValueData(ValueData): ## paiza
     def set(self):
         super().set(input())
 
-class PaizaArrayData(ArrayData):
+# class PaizaArrayData(ArrayData): ## paiza
+class ArrayData(ArrayData): ## paiza
     def set(self):
         super().set(input())
 
