@@ -6,7 +6,7 @@ logger.addHandler(sh)
 # ロガーのログレベルをWARNINGに設定する
 logger.setLevel(logging.WARNING)
 
-sys.path.append("./libs/") ## paiza
+sys.path.append("../../libs/") ## paiza
 import data ## paiza
 # import paiza ## debug
 import vscode as paiza ## debug
