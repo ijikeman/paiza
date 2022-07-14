@@ -2,12 +2,12 @@ from data import *
 
 class PaizaValueData(ValueData):
     def set(self):
-        self.data = input()
+        super().set(input())
 
 class PaizaArrayData(ArrayData):
     def set(self):
-        self.data.append(input())
+        super().set(input())
 
     def sets(self, num):
         for i in range(num):
-            self.data.append(input())
+            super().set(input())

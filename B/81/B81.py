@@ -19,47 +19,70 @@ current=.
 vertical=0 or max
   current=# 1
 
-vertical !=0 and !max
-  current=# and upper=. 1
-
 中間業と最終行
 current=. and upper=# 1
 current=# and upper=. 1
 """
 class B81(paiza.ValueData):
     def __init__(self):
-        self.data = 0
+        super().set(0)
 
     def judge(self, before, current, upper, vertical, vertical_max):
         print("before=" + before + ", current=" + current + ", upper=" + upper + "END", vertical, vertical_max)
+        # 最初の行
+        if vertical == 0:
+            # 最上部判定
+            if current == "#":
+                self.__count_up()
+            
+            # 横部判定
+            if current == "#":
+                pass
+            elif current == ".":
+                pass
+        # 最初の行以外
+        else:
+            # 上下部判定
+            if current == "#":
+                if upper == ".":
+                    self.__count_up()
 
+            elif current == ".":
+                if upper == "#":
+                    self.__count_up()
+
+        # 最終行判定
+        # 最下部判定
         if current == ".":
             if before == "" or before == ".":
-                self.data += 0
+                super().set(super().get() + 0)
             elif before == "#":
-                self.data += 1
+                
             
             # 最初の行、最終行以外の行の場合
             if vertical != 0 and vertical != vertical_max:
                 # 前の行が#で現在が.の場合
                 if upper == "#":
-                    self.data += 1
+                    super().set(super().get() + 1)
 
         elif current == "#":
             if before == "" or before == ".":
-                self.data += 1
+                super().set(super().get() + 1)
             elif before == "#":
-                self.data += 0
+                super().set(super().get() + 0)
 
             # 最初の行か最終行なら + 1
             if vertical == 0 or vertical == vertical_max:
-                self.data += 1
+                super().set(super().get() + 1)
 
             # 最初の行、最終行以外の行の場合
             if vertical != 0 and vertical != vertical_max:
                 # 前の行がなしで現在が#もしくは.の場合
                 if upper == "" or upper == ".":
-                    self.data += 1
+                    super().set(super().get() + 1)
+
+    def __count_up(self):
+        super().set(super().get() + 1)
 
 #最初の行データをインスタンス化
 first_line = paiza.PaizaValueData()

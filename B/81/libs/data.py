@@ -15,33 +15,33 @@ class Data(metaclass=ABCMeta):
 
 class ValueData(Data):
     def __init__(self):
-        self.data = ''
+        self.__data = ''
 
     def get(self):
-        return self.data
+        return self.__data
 
     def set(self, value):
-        self.data = value
+        self.__data = value
 
 class ArrayData(Data):
     def __init__(self):
-        self.data = []
+        self.__data = []
 
     def get(self, num):
-        return self.data[int(num)]
+        return self.__data[int(num)]
     
     def set(self, value):
-        self.data.append(value)
+        self.__data.append(value)
 
     def sets(self, *value):
-        self.data.extend(value)
+        self.__data.extend(value)
 
 class HashData(Data):
     def __init__(self):
-        self.data = {}
+        self.__data = {}
     
     def get(self, key):
-        return self.data[key]
+        return self.__data[key]
     
     def set(self, key, value):
-        self.data[key: value]
+        self.__data[key: value]
