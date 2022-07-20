@@ -33,11 +33,14 @@ class ArrayData(Data):
     def set(self, value):
         self.__data.append(value)
 
-    def sets(self, *value):
+    def sets(self, value):
         self.__data.extend(value)
 
     def pop(self):
         return self.__data.pop(0)
+
+    def get_count(self):
+        return len(self.__data)
 
 class HashData(Data):
     def __init__(self):
