@@ -28,4 +28,7 @@ class ArrayData(ArrayData):
             super().set(self.fp.readline().rstrip())
 
     def pop(self):
-        return super().pop()
+        try:
+            return super().pop()
+        except:
+            return False
