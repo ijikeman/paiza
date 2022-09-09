@@ -1,4 +1,3 @@
-
 input_line = input()
 tmp=int(input_line)
 

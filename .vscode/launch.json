@@ -1,25 +1,27 @@
 {
-    // IntelliSense を使用して利用可能な属性を学べます。
-    // 既存の属性の説明をホバーして表示します。
-    // 詳細情報は次を確認してください: https://go.microsoft.com/fwlink/?linkid=830387
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
         {
-            "cwd": "${fileDirname}",    // カレントディレクトリをファイルがある位置に移動
-            "args": ["${input:prompt}"],       // 入力した引数つきで実行
-            "name": "Python: Current File",
+            "name": "Python: 現在のファイル",
             "type": "python",
             "request": "launch",
             "program": "${file}",
-            "console": "integratedTerminal"
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "${input:prompt}"
+            ]
         }
     ],
     "inputs": [
         {
             "type": "promptString",
             "id": "prompt",
-            "description": "引数を入力してください。",
+            "description": "引数を入力してください",
             "default": ""
         }
-    ],
+    ] 
 }
